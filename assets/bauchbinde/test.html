@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+               Copyright licence: CC0 [Public Domain]
+     To the extent possible under law, the creator has waived all
+     copyright and related or neighboring rights to this HTML file.
+-->
+<html>
+  <head>
+    <title>Lower-Third Sample (1: circle + rounded banner)</title>
+    <meta charset="UTF-8">
+    <meta    name="description" content="A Lower-Third Sample.">
+    <meta    name="keywords"    content="Shotcut, animation, video">
+    <meta    name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta    name="author"      content="Neil (elusien.co.uk)">
+    <!--link    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <style>
+:root {
+
+/*
+  ====================================================
+  PARAMETERS THAN CAN BE TAILORED TO YOUR REQUIREMENTS
+  ====================================================
+*/
+
+     --screen_width : 1800; /* the horizontal resolution:1368px or 2736px for Surface-Pro */
+     --screen_height: 130px;  /* the  vertical  resolution: 912px or 1824px for Surface-Pro */
+
+     --screen_bg    : #000;  /* the html (screen) background colour         */
+     --screen_fg    : #f9ffff;  /* the html (screen) foreground colour (border)*/
+     --screen_shadow: #ffffff;  /* the text container's shadow colour          */
+
+     --text_bg      : #686868;  /* the text container's background colour      */
+     --text_fg      : #ffffff;  /* the text container's foreground colour      */
+     --text_shadow  : #252525;  /* the text-shadow colour                      */
+     --icon_bg      : #4a4a4a;  /* the icon's background colour                */
+     --icon_fg      : #ffffff;  /* the icon's foreground colour                */
+
+     --text_width   : 20;       /* an approximate width for the text container */
+     --rem_size     : 10px;     /* the basic font size (1 rem = this)          */
+     --text_height  : 8.0;     /* the text-box height (in rem)                */
+
+     --delay        : 15.0s;     /* the delay before starting the animation     */
+     --duration     : 300.0s;     /* the amount of time the text is shown        */
+
+     --ut_ratio     : 0.6;     /* the (approx) ratio of the upper text height to the text-box height */
+     --upper_font   : Miso;
+     --lower_font   : Miso;
+    }
+/*
+  ====================================================================
+  DO NOT CHANGE ANYTHING BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING
+  ====================================================================
+*/
+span       { display: inline-block; }
+html       {
+            font-size       : var(--rem_size);
+            background-color: var(--screen_bg);
+            width           : var(--screen_width);
+            height          : var(--screen_height);
+           }
+ body      {
+            display:flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            width: 100%; height: 100%; background-color: var(--screen_bg); overflow: hidden;
+           }
+.container {
+            position: relative;
+
+            --rem_size_upperline: calc(var(--text_height) * 0.9 * var(--ut_ratio));
+            --rem_size_lowerline: calc(var(--text_height) * 0.9 * (1 - var(--ut_ratio)));
+            --width              : calc(var(--text_width)  * (var(--rem_size_lowerline) + var(--rem_size_upperline)) * 1rem);
+
+            width           : var(--width);
+            height          : calc(var(--text_height) * 1.333rem);
+           }
+.icon      {position        : absolute;
+            z-index         : 1;
+            display         : flex; flex-direction: column; align-items: center; justify-content: center;
+            width           : calc(var(--text_height) * 1rem);
+            height          : calc(var(--text_height) * 1rem);
+            text-align      : center;
+            border          : solid 3px   var(--screen_fg);
+            border-radius   : 50%;
+            box-shadow      : 0 0 5px     var(--screen_shadow);
+            text-shadow     : 1px 1px 2px var(--text_shadow);
+            background-color: var(--icon_bg);
+            color           : var(--icon_fg);
+            margin          : 5px 0;
+            transform       : translate3d(-50vw, 0, 0);
+           }
+.icon_code {font-size       : calc(var(--text_height) * 0.6em);}
+.text      {
+            position        : absolute;
+            z-index         : 0;
+            left            : calc(var(--text_height) * 0.5rem);
+            height          : calc(var(--text_height) * 1rem);
+            width           : var(--width);
+            border          : solid 3px   var(--screen_fg);
+            border-radius   : 0 calc(var(--text_height) * 0.5rem) calc(var(--text_height) * 0.5rem) 0;
+            background-color: var(--text_bg);
+            color           : var(--text_fg);
+            text-shadow     : 1px 1px 2px var(--text_shadow);
+            white-space     : nowrap;
+            text-align      : center;
+            overflow        : hidden;
+            margin          : 5px 0;
+            transform       : scale(0, 1);
+           }
+.upper_text {
+            height     : calc(var(--rem_size_upperline) * 1rem);
+            font-size  : calc(var(--rem_size_upperline) * 1rem);
+            font-family: var(--upper_font);
+            line-height: 1;
+           }
+.lower_text {
+            height     : calc(var(--rem_size_lowerline) * 1rem);
+            font-size  : calc(var(--rem_size_lowerline) * 1rem);
+            font-family: var(--lower_font);
+            line-height: 1;
+           }
+.text::before {
+               content         : "";
+               z-index         : 2;
+               left            : 0;
+               position        : absolute;
+               height          : 100%;
+               width           : 100%;
+               background-color: var(--text_bg);
+               border          : none;
+               transform-origin: center right;
+              }
+
+@keyframes icon_in {
+                   from { transform: translate3d(-50vw, 0, 0); }
+                   to   { transform: translate3d(0    , 0, 0); }
+                  }
+@keyframes before_in {
+                     0% { transform: scale(1, 1); }
+                   100% { transform: scale(0, 1); }
+                  }
+
+@keyframes text_in {
+                   from { transform: scale(0, 1); }
+                   to   { transform: scale(1, 1); }
+                  }
+@keyframes icon_out {
+                   from { transform: translate3d(0    , 0, 0); }
+                   to   { transform: translate3d(-50vw, 0, 0); }
+                  }
+@keyframes before_out {
+                     0% { transform: scale(0, 1); }
+                   100% { transform: scale(1, 1); }
+                  }
+
+@keyframes text_out {
+                   from { transform: scale(1, 1); }
+                   to   { transform: scale(0, 1); }
+                  }
+
+.icon             {
+                   animation: icon_in   0.5s  linear calc(var(--delay) + 0s                    ) forwards,
+                              icon_out  0.5s  linear calc(var(--delay) + 2.5s + var(--duration)) forwards;
+                  }
+.text             {
+                   transform-origin: left center;
+                   animation: text_in   0.5s  linear calc(var(--delay) + 0.75s                 ) forwards,
+                              text_out  0.5s  linear calc(var(--delay) + 2s   + var(--duration)) forwards;
+                  }
+.text::before     {
+                   animation: before_in  0.5s linear calc(var(--delay) + 1.5s                  ) forwards,
+                              before_out 0.5s linear calc(var(--delay) + 1.5s + var(--duration)) forwards;
+                  }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="icon"><span class="icon_code"><i class="fas fa-info-circle"></i></span></div>
+      <div class="text">
+        <div class="upper_text">
+          HOWTO Vortragsequipment
+        </div>
+        <div class="lower_text">
+          TabascoEye
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
