@@ -1,1 +1,1 @@
-{"profile":"high"}
+{"limit_bitrate":true,"bframes":false,"rate_control":"ABR","bitrate":8500,"max_bitrate":16000}
